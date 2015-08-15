@@ -1,0 +1,17 @@
+package zaggy1024.quivermod.config;
+
+import sharose.mods.guiapi.ModSettingScreen;
+import sharose.mods.guiapi.ModSettings;
+
+public class ContainModSettings {
+	
+	public QuiverModSettings modSettings;
+	public ModSettingScreen modSettingGui;
+	
+	public ContainModSettings(QuiverModSettings setModSettings, ModSettingScreen setModSettingGui)
+	{
+		modSettings = setModSettings;
+		modSettingGui = setModSettingGui;
+	}
+	
+}

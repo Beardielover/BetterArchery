@@ -1,0 +1,90 @@
+package zaggy1024.quivermod.config;
+
+import net.minecraft.client.renderer.entity.RenderArrow;
+import sharose.mods.guiapi.ModSettingScreen;
+import sharose.mods.guiapi.ModSettings;
+import sharose.mods.guiapi.WidgetSinglecolumn;
+import zaggy1024.quivermod.QuiverMod;
+import zaggy1024.quivermod.client.renderers.QuiverRenderPlayerBase;
+
+public class QuiverModSettings extends ModSettings {
+
+	private String[] arrowAnimNames = new String[]{"Dancing", "One Jump", "One Move"};
+	private String[] arrowKnockbackNames = new String[]{"No Change", "> Armor, < Knock", "< Armor, < Knock"};
+	private String[] bowInfinityModeNames = new String[]{"Vanilla", "Per-Arrow Type Chance", "25% Chance"};
+
+	public QuiverModSettings(String backEndName, ModSettingScreen screen) {
+		super(backEndName);
+
+		screen.setSingleColumn(true);
+		
+		addSetting(screen, "Ender Arrow Chunk Loader", "useChunkLoader", QuiverModConfigManager.useChunkLoader);
+		addSetting(screen, "Arrow Slow-Motion Fraction", "arrowSlowMo", QuiverModConfigManager.slowMoSetting, 0, 100);
+		addSetting(screen, "Offset Arrows Right", "offsetArrows", QuiverModConfigManager.offsetArrows);
+		addSetting(screen, "Skeleton Griefing", "allowSkeletonGriefing", QuiverModConfigManager.allowSkeletonGriefing);
+		addSetting(screen, "Skeleton Potion Arrows", "allowSkeletonPotionArrows", QuiverModConfigManager.allowSkeletonPotionArrows);
+		addSetting(screen, "Arrow Knockback", "arrowKnockbackMode", QuiverModConfigManager.arrowKnockbackMode, arrowKnockbackNames);
+		addSetting(screen, "Infinity", "bowInfinityMode", QuiverModConfigManager.bowInfinityMode, bowInfinityModeNames);
+
+		addSetting(screen, "R Replace Torch Placing", "replaceVanillaTorchPlacing", QuiverModConfigManager.replaceVanillaTorchPlacing);
+		addSetting(screen, "R Remove Vanilla Bow Recipe", "removeVanillaBowCrafting", QuiverModConfigManager.removeVanillaBowCrafting);
+
+		addSetting(screen, "C High-Res Bow Icons", "highResIcons", QuiverModConfigManager.highResIcons);
+		addSetting(screen, "C Selected Arrow Anim", "animationStyle", QuiverModConfigManager.animationStyle, arrowAnimNames);
+		addSetting(screen, "C 3D Arrow Distance", "fancyArrowDistance", QuiverModConfigManager.fancyArrowDistance, 0, 10, 1000);
+		addSetting(screen, "C 3D Worn Quiver Distance", "renderQuiverIn3DDistance", QuiverModConfigManager.renderQuiverIn3DDistance, 0, 10, 1000);
+		addSetting(screen, "C Quiver Hotbar V Offset", "quiverHotbarVerticalOffset", QuiverModConfigManager.quiverHotbarVerticalOffset, -18, 1, 1600);
+	}
+	
+	public void load(String context)
+	{
+		load();
+	}
+	
+	public void load()
+	{
+		getSettingBoolean("useChunkLoader").set(QuiverModConfigManager.useChunkLoader);
+		getSettingInt("arrowSlowMo").set(QuiverModConfigManager.slowMoSetting);
+		getSettingBoolean("offsetArrows").set(QuiverModConfigManager.offsetArrows);
+		getSettingBoolean("allowSkeletonGriefing").set(QuiverModConfigManager.allowSkeletonGriefing);
+		getSettingBoolean("allowSkeletonPotionArrows").set(QuiverModConfigManager.allowSkeletonPotionArrows);
+		getSettingMulti("arrowKnockbackMode").set(QuiverModConfigManager.arrowKnockbackMode);
+		getSettingMulti("bowInfinityMode").set(QuiverModConfigManager.bowInfinityMode);
+
+		getSettingBoolean("replaceVanillaTorchPlacing").set(QuiverModConfigManager.replaceVanillaTorchPlacing);
+		getSettingBoolean("removeVanillaBowCrafting").set(QuiverModConfigManager.removeVanillaBowCrafting);
+
+		getSettingBoolean("highResIcons").set(QuiverModConfigManager.highResIcons);
+		getSettingMulti("animationStyle").set(QuiverModConfigManager.animationStyle);
+		getSettingInt("fancyArrowDistance").set(QuiverModConfigManager.fancyArrowDistance);
+		getSettingInt("renderQuiverIn3DDistance").set(QuiverModConfigManager.renderQuiverIn3DDistance);
+		getSettingInt("quiverHotbarVerticalOffset").set(QuiverModConfigManager.quiverHotbarVerticalOffset);
+	}
+	
+	public void save(String context)
+	{
+		if (QuiverModConfigManager.settingsLoaded)
+		{
+			QuiverModConfigManager.useChunkLoader = getSettingBoolean("useChunkLoader").get();
+			QuiverModConfigManager.slowMoSetting = getSettingInt("arrowSlowMo").get();
+			QuiverModConfigManager.offsetArrows = getSettingBoolean("offsetArrows").get();
+			QuiverModConfigManager.allowSkeletonGriefing = getSettingBoolean("allowSkeletonGriefing").get();
+			QuiverModConfigManager.allowSkeletonPotionArrows = getSettingBoolean("allowSkeletonPotionArrows").get();
+			QuiverModConfigManager.arrowKnockbackMode = getSettingMulti("arrowKnockbackMode").get();
+			QuiverModConfigManager.bowInfinityMode = getSettingMulti("bowInfinityMode").get();
+
+			QuiverModConfigManager.replaceVanillaTorchPlacing = getSettingBoolean("replaceVanillaTorchPlacing").get();
+			QuiverModConfigManager.removeVanillaBowCrafting = getSettingBoolean("removeVanillaBowCrafting").get();
+	
+			QuiverModConfigManager.highResIcons = getSettingBoolean("highResIcons").get();
+			QuiverModConfigManager.animationStyle = getSettingMulti("animationStyle").get();
+			QuiverModConfigManager.fancyArrowDistance = getSettingInt("fancyArrowDistance").get();
+			
+			QuiverModConfigManager.renderQuiverIn3DDistance = getSettingInt("renderQuiverIn3DDistance").get();
+			QuiverModConfigManager.quiverHotbarVerticalOffset = getSettingInt("quiverHotbarVerticalOffset").get();
+			
+			QuiverModConfigManager.saveSettings(false);
+		}
+	}
+
+}
